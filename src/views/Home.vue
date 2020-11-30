@@ -42,12 +42,12 @@ export default defineComponent({
   },
   methods: {
     openModal (num: number) {
-      // const date = new Date()
-      // if (date.getMonth() === 11 && date.getDate() >= num) {
-      this.lastOpen = num
-      this.test = domaceNaloge[num - 1]
-      this.modalOpen = !this.modalOpen
-      // }
+      const date = new Date()
+      if (date.getMonth() === 11 && date.getDate() >= num) {
+        this.lastOpen = num
+        this.test = domaceNaloge[num - 1]
+        this.modalOpen = !this.modalOpen
+      }
     },
     done () {
       const a = this.doors.find(door => door.num === this.lastOpen)
