@@ -58,7 +58,7 @@ function openModal(num: number) {
   if (num > 26) {
     selectedDate = new Date(2021, 10, num)
   } else {
-    selectedDate = new Date(2021, 10, num)
+    selectedDate = new Date(2021, 11, num)
   }
   const date = new Date()
 
