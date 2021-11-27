@@ -25,7 +25,7 @@
             Naslov
           </DialogTitle>
           <DialogDescription>
-            <Disclosure v-slot="{ open }">
+            <Disclosure>
               <DisclosureButton
                 class="
                   flex
@@ -45,10 +45,6 @@
                 "
               >
                 <span>Rabiš namen za današnjo molitev?</span>
-                <ChevronUpIcon
-                  :class="open ? 'transform rotate-180' : ''"
-                  class="w-5 h-5 text-purple-500"
-                />
               </DisclosureButton>
 
               <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-800">
@@ -108,7 +104,6 @@ import {
   DisclosureButton,
   DisclosurePanel
 } from '@headlessui/vue'
-import { ChevronUpIcon } from '@heroicons/vue/solid'
 import { ref } from 'vue'
 
 let check1 = ref(false)
