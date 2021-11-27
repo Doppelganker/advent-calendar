@@ -3,7 +3,11 @@ module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx,vue}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {}
+    extend: {
+      gridTemplateColumns: {
+        15: 'repeat(15, minmax(0, 1fr))'
+      }
+    }
   },
   variants: {
     extend: {}

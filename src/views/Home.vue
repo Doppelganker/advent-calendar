@@ -1,32 +1,22 @@
 <template>
-  <div class="flex flex-col h-full p-2">
-    <h1 class="text-3xl text-center mb-12">Adventni Kolendar</h1>
-    <div class="flex-auto grid sm:grid-cols-5 grid-cols-3 gap-4">
+  <div class="flex flex-col h-full p-2 bg-green-300">
+    <h1 class="text-5xl text-center mb-12" @click="saveData">Adventni Kolendar</h1>
+    <div class="flex-auto grid grid-cols-15 gap-4">
       <Door
-        v-for="(door, i) in doorsNovember"
+        v-for="(door, i) in doors"
         :key="i"
-        :month="false"
-        :number="door.value.num"
-        :completed="door.value.check"
-        @click="openModal(door.value.num)"
-      />
-    </div>
-    <div class="flex-auto grid sm:grid-cols-5 grid-cols-3 gap-4">
-      <Door
-        v-for="(door, i) in doorsDecember"
-        :key="i"
-        :month="true"
-        :number="door.value.num"
-        :completed="door.value.check"
-        @click="openModal(door.value.num)"
+        :class="i >= 25 ? 'col-span-5' : 'col-span-3'"
+        :number="door.num"
+        :completed="door.check"
+        @click="openModal(door.num)"
       />
     </div>
   </div>
-  <Modal v-model:isOpen="modalOpen" @close="close"> {{ test }} </Modal>
+  <Modal v-model:isOpen="modalOpen" :check="false" @close="close"> {{ test }} </Modal>
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from 'vue'
+import { ref } from 'vue'
 import Door from '../components/Door.vue'
 import Modal from '../components/Modal.vue'
 
@@ -34,23 +24,33 @@ let lastOpen = ref(0)
 let modalOpen = ref(false)
 let test = ref('')
 
-let doorsNovember: Array<Ref<{ num: number; check: boolean }>> = []
-let doorsDecember: Array<Ref<{ num: number; check: boolean }>> = []
-let a = Array.from({ length: 3 }, (v, k) => k + 28)
-for (let i = 0; i < a.length; i++) {
-  doorsNovember[i] = ref({ num: a[i], check: false })
-}
-a = Array.from({ length: 25 }, (v, k) => k + 1)
-for (let i = 0; i < a.length; i++) {
-  doorsDecember[i] = ref({ num: a[i], check: false })
+let doors: Array<{ num: number; check: boolean }> = []
+const STORAGE_KEY = "advent-vuejs";
+const data = localStorage.getItem(STORAGE_KEY)
+if(data != null) {
+  doors = JSON.parse(data)
+} else {
+  let doorsNovember: Array<{ num: number; check: boolean }> = []
+  let doorsDecember: Array<{ num: number; check: boolean }> = []
+  let a = Array.from({ length: 3 }, (v, k) => k + 28)
+  for (let i = 0; i < a.length; i++) {
+    doorsNovember[i] = { num: a[i], check: false }
+  }
+  a = Array.from({ length: 25 }, (v, k) => k + 1)
+  for (let i = 0; i < a.length; i++) {
+    doorsDecember[i] = { num: a[i], check: false }
+  }
+  doors = [...doorsNovember, ...doorsDecember]
+
+  shuffle(doors)
 }
 
 function openModal(num: number) {
   let selectedDate: Date
   if (num > 26) {
-    selectedDate = new Date(2021, 9, num)
-  } else {
     selectedDate = new Date(2021, 10, num)
+  } else {
+    selectedDate = new Date(2021, 11, num)
   }
   const date = new Date()
 
@@ -62,11 +62,34 @@ function openModal(num: number) {
 }
 function close(done: boolean) {
   modalOpen.value = !modalOpen.value
-  let doorNumber = lastOpen.value
-  if (doorNumber > 26) {
-    doorsNovember[doorNumber - 28].value.check = done
-  } else {
-    doorsDecember[doorNumber - 1].value.check = done
+  let lastDoor = doors.find(e => e.num === lastOpen.value)
+  if(lastDoor !== undefined) {
+    lastDoor.check = done
+    saveData()
   }
 }
+
+function shuffle(array: Array<object>) {
+  let currentIndex = array.length,  randomIndex: number;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
+function saveData() {
+  const parsed = JSON.stringify(doors)
+  localStorage.setItem(STORAGE_KEY, parsed)
+}
+
 </script>

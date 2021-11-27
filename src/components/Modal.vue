@@ -39,18 +39,18 @@
               <input
                 v-model="check1"
                 type="checkbox"
-                class="rounded text-pink-500 mr-2"
+                class="rounded text-purple-500 mr-2"
               />
-              <span>Option 1</span>
+              <span>Opravil današnji izziv</span>
             </label>
 
             <label>
               <input
                 v-model="check2"
                 type="checkbox"
-                class="rounded text-pink-500 mr-2"
+                class="rounded text-purple-500 mr-2"
               />
-              <span>Option 2</span>
+              <span>Skupna molitev</span>
             </label>
           </div>
 
@@ -89,6 +89,7 @@ let check2 = ref(false)
 
 interface Props {
   isOpen: boolean
+  check: boolean
 }
 
 defineProps<Props>()
