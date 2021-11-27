@@ -1,4 +1,7 @@
 {
   "cSpell.words": ["headlessui", "tailwindcss", "vite", "vitejs"],
-  "i18n-ally.localesPaths": ["locales"]
+  "i18n-ally.localesPaths": [
+    "locales"
+  ],
+  "cSpell.enabled": false
 }

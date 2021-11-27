@@ -2,7 +2,7 @@
   <Dialog as="div" :open="isOpen">
     <div class="fixed inset-0 z-10 overflow-y-auto">
       <div class="min-h-screen px-4 text-center">
-        <DialogOverlay class="fixed inset-0" />
+        <DialogOverlay class="fixed inset-0 bg-gray-900 opacity-70" @click="close"/>
 
         <div
           class="
@@ -21,20 +21,43 @@
             rounded-2xl
           "
         >
-          <DialogTitle class="text-center text-3xl font-bold">
+          <DialogTitle class="text-center text-3xl font-bold mb-4">
             Naslov
           </DialogTitle>
           <DialogDescription>
-            Razni opisi <br />
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio
-            laboriosam hic ipsa quam esse asperiores ipsum similique nulla
-            incidunt veritatis magni, itaque voluptate ad enim nihil.
-            Perferendis voluptatum aut quia!
+            <Disclosure v-slot="{ open }">
+              <DisclosureButton
+                class="
+                  flex
+                  justify-between
+                  w-full
+                  px-4
+                  py-2
+                  text-sm
+                  font-medium
+                  text-left text-purple-900
+                  bg-purple-100
+                  rounded-lg
+                  focus:outline-none
+                  focus-visible:ring
+                  focus-visible:ring-purple-500
+                  focus-visible:ring-opacity-75
+                "
+              >
+                <span>Rabiš namen za današnjo molitev?</span>
+                <ChevronUpIcon
+                  :class="open ? 'transform rotate-180' : ''"
+                  class="w-5 h-5 text-purple-500"
+                />
+              </DisclosureButton>
+
+              <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-800">
+                <slot></slot>
+              </DisclosurePanel>
+            </Disclosure>
           </DialogDescription>
 
-          <div class="flex flex-col">
-            <slot></slot>
-
+          <div class="flex flex-col mt-8">
             <label>
               <input
                 v-model="check1"
@@ -80,8 +103,12 @@ import {
   Dialog,
   DialogOverlay,
   DialogTitle,
-  DialogDescription
+  DialogDescription,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel
 } from '@headlessui/vue'
+import { ChevronUpIcon } from '@heroicons/vue/solid'
 import { ref } from 'vue'
 
 let check1 = ref(false)

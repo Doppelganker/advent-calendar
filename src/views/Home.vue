@@ -12,22 +12,24 @@
       />
     </div>
   </div>
-  <Modal v-model:isOpen="modalOpen" :check="false" @close="close"> {{ test }} </Modal>
+  <Modal v-model:isOpen="modalOpen" :check="false" @close="close"> {{ molitveniNamen[(lastOpen + x)%molitveniNamen.length] }} </Modal>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import Door from '../components/Door.vue'
 import Modal from '../components/Modal.vue'
+import molitveniNamen from '../data/molitveniNamen.json'
 
 let lastOpen = ref(0)
 let modalOpen = ref(false)
-let test = ref('')
 
 let doors: Array<{ num: number; check: boolean }> = []
+let x = 0
 const STORAGE_KEY = "advent-vuejs";
 const data = localStorage.getItem(STORAGE_KEY)
-if(data != null) {
+let data2 = localStorage.getItem('x')
+if(data !== null) {
   doors = JSON.parse(data)
 } else {
   let doorsNovember: Array<{ num: number; check: boolean }> = []
@@ -44,6 +46,12 @@ if(data != null) {
 
   shuffle(doors)
 }
+if(data2 === null){
+  x = Math.floor(Math.random() * molitveniNamen.length)
+  localStorage.setItem('x', JSON.stringify(x))
+} else {
+  x = JSON.parse(data2)
+}
 
 function openModal(num: number) {
   let selectedDate: Date
@@ -56,7 +64,6 @@ function openModal(num: number) {
 
   if (selectedDate < date) {
     lastOpen.value = num
-    test.value = num + ''
     modalOpen.value = !modalOpen.value
   } else {
     alert(`Hej, hej, hej prste stran, saj še nismo ${selectedDate.getDate()}.${selectedDate.getMonth()+1}`)
@@ -75,7 +82,7 @@ function shuffle(array: Array<object>) {
   let currentIndex = array.length,  randomIndex: number;
 
   // While there remain elements to shuffle...
-  while (currentIndex != 0) {
+  while (currentIndex !== 0) {
 
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
