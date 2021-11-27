@@ -19,7 +19,7 @@
 import { ref } from 'vue'
 import Door from '../components/Door.vue'
 import Modal from '../components/Modal.vue'
-import molitveniNamen from '../data/molitveniNamen.json'
+import molitveniNamen from '../data/molitveniNamen'
 
 let lastOpen = ref(0)
 let modalOpen = ref(false)
