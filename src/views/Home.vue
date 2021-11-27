@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col h-full p-2 bg-green-300">
+  <div class="flex flex-col min-h-full p-2 bg-green-300">
     <h1 class="text-5xl text-center mb-12" @click="saveData">Adventni Kolendar</h1>
     <div class="flex-auto grid grid-cols-15 gap-4">
       <Door
         v-for="(door, i) in doors"
         :key="i"
-        :class="i >= 25 ? 'col-span-5' : 'col-span-3'"
+        :class="i >= 25 ? 'col-span-5' : 'sm:col-span-3 col-span-5'"
         :number="door.num"
         :completed="door.check"
         @click="openModal(door.num)"
@@ -50,7 +50,7 @@ function openModal(num: number) {
   if (num > 26) {
     selectedDate = new Date(2021, 10, num)
   } else {
-    selectedDate = new Date(2021, 11, num)
+    selectedDate = new Date(2021, 10, num)
   }
   const date = new Date()
 
