@@ -58,6 +58,8 @@ function openModal(num: number) {
     lastOpen.value = num
     test.value = num + ''
     modalOpen.value = !modalOpen.value
+  } else {
+    alert(`Hej, hej, hej prste stran, saj še nismo ${selectedDate.getDate()}.${selectedDate.getMonth()+1}`)
   }
 }
 function close(done: boolean) {
